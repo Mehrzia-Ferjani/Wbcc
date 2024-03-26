@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Remise</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5" >
+    <h2>Add Remise</h2>
+    <form id="remiseForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="lot">Lot ID:</label>
+            <input type="text" class="form-control" id="lot" name="lot" required>
+        </div>
+        <div class="form-group">
+            <label for="donneur">Donneur:</label>
+            <input type="text" class="form-control" id="donneur" name="donneur" required>
+        </div>
+        <div class="form-group">
+            <label for="receveur">Receveur:</label>
+            <input type="text" class="form-control" id="receveur" name="receveur" required>
+        </div>
+        <div class="form-group">
+            <label for="dateRemise">Date de Remise:</label>
+            <input type="date" class="form-control" id="dateRemise" name="dateRemise" required>
+        </div>
+        <div class="form-group">
+            <label for="commentaire">Commentaire:</label>
+            <textarea class="form-control" id="commentaire" name="commentaire" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="signature">Signature:</label>
+            <input type="text" class="form-control" id="signature" name="signature" required>
+        </div>
+        <div class="form-group">
+            <label for="photoVideo">Photo/Video:</label>
+            <input type="file" class="form-control-file" id="photoVideo" name="photoVideo">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.getElementById('remiseForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        fetch('http://localhost:3000/remises-cles/add', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            alert('Remise added successfully!');
+            // Redirect or perform other actions as needed
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+            alert('Failed to add remise. Please try again.');
+        });
+    });
+</script>
+
+</body>
+</html>
